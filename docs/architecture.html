@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Pipeline Architecture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #090d16;
+            --card-bg: #111827;
+            --border: #1f2937;
+            --cyan: #06b6d4;
+            --green: #10b981;
+            --purple: #8b5cf6;
+            --amber: #f59e0b;
+            --text-main: #f3f4f6;
+            --text-sub: #9ca3af;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+
+        p.subtitle {
+            color: var(--text-sub);
+            margin-top: 0;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .pipeline-container {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            max-width: 1100px;
+            width: 100%;
+            position: relative;
+        }
+
+        .node {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            flex: 1;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .node:hover {
+            transform: translateY(-5px);
+        }
+
+        .node.app { border-color: var(--cyan); box-shadow: 0 0 20px rgba(6, 182, 212, 0.2); }
+        .node.security { border-color: var(--green); box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
+        .node.iac { border-color: var(--purple); box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); }
+        .node.k8s { border-color: var(--amber); box-shadow: 0 0 20px rgba(245, 158, 11, 0.2); }
+
+        .node-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .node-desc {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            line-height: 1.4;
+        }
+
+        .tag {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .tag.app { background: rgba(6, 182, 212, 0.15); color: var(--cyan); }
+        .tag.security { background: rgba(16, 185, 129, 0.15); color: var(--green); }
+        .tag.iac { background: rgba(139, 92, 246, 0.15); color: var(--purple); }
+        .tag.k8s { background: rgba(245, 158, 11, 0.15); color: var(--amber); }
+
+        .arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 50px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        .pulse {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 12px var(--cyan);
+            animation: movePulse 2.5s infinite linear;
+        }
+
+        @keyframes movePulse {
+            0% { left: -600px; opacity: 0; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
+            25% { opacity: 1; background: var(--green); box-shadow: 0 0 12px var(--green); }
+            50% { background: var(--purple); box-shadow: 0 0 12px var(--purple); }
+            75% { background: var(--amber); box-shadow: 0 0 12px var(--amber); }
+            100% { left: 600px; opacity: 0; }
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .footer a {
+            color: var(--cyan);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <h1>End-to-End DevSecOps & Cloud Pipeline</h1>
+    <p class="subtitle">Python REST API -> Docker -> Static analysis -> Terraform -> Kubernetes</p>
+
+    <div class="pipeline-container">
+        <div class="node app">
+            <div class="node-title">1. Docker</div>
+            <div class="node-desc">Python REST API packaged into a standardized container image.</div>
+            <div class="tag app">Containerization</div>
+        </div>
+
+        <div class="arrow"><div class="pulse"></div></div>
+
+        <div class="node security">
+            <div class="node-title">2. Analysis</div>
+            <div class="node-desc">CodeQL static analysis, secret detection and dependency alerts.</div>
+            <div class="tag security">DevSecOps</div>
+        </div>
+
+        <div class="arrow"></div>
+
+        <div class="node iac">
+            <div class="node-title">3. Terraform</div>
+            <div class="node-desc">Declarative infrastructure and network provisioning via code.</div>
+            <div class="tag iac">IaC</div>
+        </div>
+
+        <div class="arrow"></div>
+
+        <div class="node k8s">
+            <div class="node-title">4. Kubernetes</div>
+            <div class="node-desc">Auto-healing replicas & LoadBalancer traffic distribution.</div>
+            <div class="tag k8s">Orchestration</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        GitHub Repository: <a href="https://github.com/mamamia0729/DevOps" target="_blank">github.com/mamamia0729/DevOps</a>
+    </div>
+</body>
+</html>
